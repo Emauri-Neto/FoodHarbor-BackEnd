@@ -40,5 +40,5 @@ Inicie o servidor
 
 ## Relacionados
 
-Também é possível baixar o [Frontend](https://github.com/matiassingers/awesome-readme)!
+Também é possível baixar o [Frontend](https://github.com/Emauri-Neto/FoodHarbor-FrontEnd)!
 
