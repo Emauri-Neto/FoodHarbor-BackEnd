@@ -26,7 +26,9 @@ class CustomUserManager(UserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=True, default='', unique=True)
-    name = models.CharField(max_length=255, blank=True, default='')
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    birthday = models.DateField(null=True, blank = True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -46,8 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Users'
 
     def get_full_name(self):
-        return self.name
+        return f"{self.first_name}{self.last_name}"
     
     def get_short_name(self):
-        return self.name or self.email.split('@')[0]
+        return self.first_name or self.email.split('@')[0]
     
