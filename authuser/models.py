@@ -1,4 +1,3 @@
-from typing import Any
 from django.db import models
 from django.contrib.auth.models import UserManager, PermissionsMixin, AbstractBaseUser
 from django.utils import timezone
@@ -25,10 +24,19 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
+    USER_ROLE = [
+        ('client', 'Client'),
+        ('store', 'Store'),
+        ('deliveryman', 'Deliveryman'),
+    ]
+
     email = models.EmailField(blank=True, default='', unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    birthday = models.DateField(null=True, blank = True)
+    birthday = models.DateField(null=True, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    user_role = models.CharField(max_length=50, choices=USER_ROLE, default='client')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -41,15 +49,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS: []
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
     def get_full_name(self):
-        return f"{self.first_name}{self.last_name}"
+        return f"{self.first_name} {self.last_name}"
     
     def get_short_name(self):
         return self.first_name or self.email.split('@')[0]
-    
